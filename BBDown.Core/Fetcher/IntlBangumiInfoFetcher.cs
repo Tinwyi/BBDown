@@ -39,7 +39,8 @@ namespace BBDown.Core.Fetcher
                 }
             }
 
-            long pubTime = DateTimeOffset.ParseExact(result.GetProperty("publish").GetProperty("pub_time").ToString(), "yyyy-MM-dd HH:mm:ss", null).ToUnixTimeSeconds();
+            string pubTimeStr = result.GetProperty("publish").GetProperty("pub_time").ToString();
+            long pubTime = string.IsNullOrEmpty(pubTimeStr) ? 0 : DateTimeOffset.ParseExact(pubTimeStr, "yyyy-MM-dd HH:mm:ss", null).ToUnixTimeSeconds();
             var pages = new List<JsonElement>();
             if (result.TryGetProperty("episodes", out JsonElement episodes))
             {
